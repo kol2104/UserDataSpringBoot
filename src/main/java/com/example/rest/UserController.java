@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<User> getUserById (@PathVariable("userId") Long userId) {
+    public ResponseEntity<User> getUserById (@PathVariable("userId") String userId) {
         User user = userService.getUserById(userId);
         if (user != null)
             return new ResponseEntity(user, HttpStatus.OK);

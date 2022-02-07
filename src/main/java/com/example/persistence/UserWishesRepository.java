@@ -5,6 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserWishesRepository extends CrudRepository<UserWishes, Long> {
+public interface UserWishesRepository extends CrudRepository<UserWishes, String> {
 
 }

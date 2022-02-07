@@ -28,7 +28,7 @@ public class UserWishes {
     private String values;
 
     @Transient
-    private Long userId;
+    private String userId;
 
 
 

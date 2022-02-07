@@ -25,7 +25,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User getUserById(long id) {
+    public User getUserById(String id) {
         User user = null;
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent())
