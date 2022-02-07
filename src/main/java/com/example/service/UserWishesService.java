@@ -30,7 +30,7 @@ public class UserWishesService {
     }
 
 
-    public UserWishes getUserWishesById(Long id) {
+    public UserWishes getUserWishesById(String id) {
         UserWishes userWishes = null;
         Optional<UserWishes> optionalUserWishes = userWishesRepository.findById(id);
         if (optionalUserWishes.isPresent())

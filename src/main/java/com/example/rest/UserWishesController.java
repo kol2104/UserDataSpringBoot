@@ -31,7 +31,7 @@ public class UserWishesController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<User>> getUserWishesById (@PathVariable("id") Long id) {
+    public ResponseEntity<List<User>> getUserWishesById (@PathVariable("id") String id) {
         return new ResponseEntity(userWishesService.getUserWishesById(id), HttpStatus.OK);
     }
 
