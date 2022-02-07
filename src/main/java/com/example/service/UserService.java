@@ -4,6 +4,7 @@ import com.example.domain.User;
 import org.springframework.stereotype.Service;
 import com.example.persistence.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,8 +21,8 @@ public class UserService {
         return (List<User>) userRepository.findAll();
     }
 
-    public void saveUsers (List<User> users) {
-        userRepository.saveAll(users);
+    public User saveUser (User user) {
+        return userRepository.save(user);
     }
 
     public User getUserById(long id) {
@@ -32,11 +33,16 @@ public class UserService {
         return user;
     }
 
-    public void updateUserById(User user) {
-        Optional<User> optionalUser = userRepository.findById(user.getId());
-        if (optionalUser.isPresent()) {
-            userRepository.save(user);
+    public List<User> updateUsers(List<User> users) {
+        List<User> updateUserList = new ArrayList<>();
+        for (User user : users) {
+            Optional<User> optionalUser = userRepository.findById(user.getId());
+            if (optionalUser.isPresent()) {
+                userRepository.save(user);
+                updateUserList.add(user);
+            }
         }
+        return updateUserList;
     }
 
     /*public void deleteUserById(Long id) {

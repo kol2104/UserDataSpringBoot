@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/v1/users")
 public class UserController {
 
 
@@ -21,9 +21,8 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity saveAllUsers (@RequestBody List<User> users) {
-        userService.saveUsers(users);
-        return new ResponseEntity(HttpStatus.CREATED);
+    public ResponseEntity<User> saveAllUsers (@RequestBody User user) {
+        return new ResponseEntity(userService.saveUser(user), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -31,15 +30,17 @@ public class UserController {
         return new ResponseEntity(userService.getUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<User>> getUserById (@PathVariable("id") Long id) {
-        return new ResponseEntity(userService.getUserById(id), HttpStatus.OK);
+    @GetMapping("/{userId}")
+    public ResponseEntity<User> getUserById (@PathVariable("userId") Long userId) {
+        User user = userService.getUserById(userId);
+        if (user != null)
+            return new ResponseEntity(user, HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping
-    public ResponseEntity updateUserById(@RequestBody User user) {
-        userService.updateUserById(user);
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity<List<User>> updateUserById(@RequestBody List<User> users) {
+        return new ResponseEntity(userService.updateUsers(users), HttpStatus.OK);
     }
 
     /*@DeleteMapping("/{id}")
