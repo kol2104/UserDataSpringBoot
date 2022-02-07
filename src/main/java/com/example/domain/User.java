@@ -18,9 +18,9 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue
-    private Long id;
-    private String username;
-    private String mail;
+    private String id;
+    private String name;
+    private String email;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     private Set<UserWishes> userWishes;

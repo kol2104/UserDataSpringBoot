@@ -17,14 +17,14 @@ import java.util.Objects;
 public class UserWishes {
     @Id
     @GeneratedValue
-    private Long id;
+    private String id;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
     private User user;
     @Column(name = "price_settings_id", nullable = false)
-    private Long priceSettingsId;
+    private String priceSettingsId;
     @Column(name = "item2find_id", nullable = false)
-    private Long item2FindId;
+    private String item2FindId;
     private String values;
 
     @Transient
