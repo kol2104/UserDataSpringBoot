@@ -1,8 +1,8 @@
 package com.example.rest;
 
 import com.example.domain.User;
+import com.example.exception.UserNotFoundException;
 import com.example.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,6 @@ import java.util.List;
 @RequestMapping("/api/v1/users")
 public class UserController {
 
-
     private UserService userService;
 
     public UserController(UserService usersService) {
@@ -21,7 +20,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> saveAllUsers (@RequestBody User user) {
+    public ResponseEntity<User> saveUser (@RequestBody User user) {
         return new ResponseEntity(userService.saveUser(user), HttpStatus.CREATED);
     }
 
@@ -39,8 +38,14 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<List<User>> updateUserById(@RequestBody List<User> users) {
+    public ResponseEntity<List<User>> updateUsers(@RequestBody List<User> users) {
         return new ResponseEntity(userService.updateUsers(users), HttpStatus.OK);
+    }
+
+    @ExceptionHandler({UserNotFoundException.class})
+    public ResponseEntity handleException(Exception exception) {
+        Object errorBody = "User id not exist: " + exception.getMessage();
+        return new ResponseEntity(errorBody, HttpStatus.BAD_REQUEST);
     }
 
     /*@DeleteMapping("/{id}")
