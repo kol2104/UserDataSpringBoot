@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class UserService {
@@ -27,17 +26,14 @@ public class UserService {
 
     @Transactional
     public User saveUser (User user) {
-        user.setId(UUID.randomUUID().toString());
+        User newUser = User.builder().id(user.getId()).name(user.getName()).email(user.getEmail()).build();
+        user.setId(userRepository.save(newUser).getId());
         userWishesService.saveUserWishes(user.getUserWishes(), user);
-        return userRepository.save(user);
+        return user;
     }
 
-    public User getUserById(String id) {
-        User user = null;
-        Optional<User> optionalUser = userRepository.findById(id);
-        if (optionalUser.isPresent())
-            user = optionalUser.get();
-        return user;
+    public Optional<User> getUserById(String id) {
+        return userRepository.findById(id);
     }
 
     @Transactional

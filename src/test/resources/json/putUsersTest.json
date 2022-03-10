@@ -1,0 +1,51 @@
+[
+  {
+    "id": "1",
+    "name": "Petr",
+    "email": "petr@mail.ru",
+    "userWishes": [
+      {
+        "id": "1",
+        "userId": "1",
+        "priceSettingsId": "1",
+        "item2FindId": "1",
+        "values": "100;120"
+      },
+      {
+        "id": "2",
+        "userId": "1",
+        "priceSettingsId": "4",
+        "item2FindId": "5",
+        "values": "500"
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "name": "Maksim",
+    "email": "Maksim@mail.ru",
+    "userWishes": [
+      {
+        "id": "3",
+        "userId": "2",
+        "priceSettingsId": "2",
+        "item2FindId": "2",
+        "values": "1000"
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "name": "Ivan",
+    "email": "ivan@mail.ru",
+    "userWishes": [
+      {
+        "id": "4",
+        "userId": "3",
+        "priceSettingsId": "5",
+        "item2FindId": "5",
+        "values": "10000"
+      }
+    ]
+  }
+]

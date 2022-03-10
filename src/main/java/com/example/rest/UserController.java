@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -31,9 +32,9 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<User> getUserById (@PathVariable("userId") String userId) {
-        User user = userService.getUserById(userId);
-        if (user != null)
-            return new ResponseEntity(user, HttpStatus.OK);
+        Optional<User> userOptional = userService.getUserById(userId);
+        if (userOptional.isPresent())
+            return new ResponseEntity(userOptional, HttpStatus.OK);
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
