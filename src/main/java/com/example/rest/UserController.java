@@ -45,7 +45,7 @@ public class UserController {
 
     @ExceptionHandler({UserNotFoundException.class})
     public ResponseEntity handleException(Exception exception) {
-        Object errorBody = "User id not exist: " + exception.getMessage();
+        Object errorBody = exception.getMessage();
         return new ResponseEntity(errorBody, HttpStatus.BAD_REQUEST);
     }
 

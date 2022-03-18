@@ -1,0 +1,16 @@
+{
+  "name": "Ivan",
+  "email": "ivan@mail.ru",
+  "userWishes": [
+    {
+      "priceSettingsId": "1",
+      "item2FindId": "1",
+      "values": "100;120"
+    },
+    {
+      "priceSettingsId": "4",
+      "item2FindId": "5",
+      "values": "500"
+    }
+  ]
+}

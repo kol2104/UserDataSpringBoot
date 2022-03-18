@@ -5,6 +5,9 @@ import com.example.domain.UserWish;
 import com.example.persistence.UserWishesRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -16,13 +19,15 @@ public class UserWishesService {
         this.userWishesRepository = userWishesRepository;
     }
 
-    public void saveUserWishes(Set<UserWish> userWishes, User user) {
+    public Set<UserWish> saveUserWishes(Set<UserWish> userWishes, User user) {
         if (userWishes == null)
-            return;
+            return null;
         for (UserWish userWish : userWishes) {
             userWish.setUserId(user.getId());
         }
-        userWishesRepository.saveAll(userWishes);
+        Set<UserWish> userWishSet = new HashSet<>();
+        userWishesRepository.saveAll(userWishes).forEach(userWish -> userWishSet.add(userWish));
+        return userWishSet;
     }
 
     /*public void deleteUserWishesById(Long id) {

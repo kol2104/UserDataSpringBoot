@@ -28,7 +28,7 @@ public class UserService {
     public User saveUser (User user) {
         User newUser = User.builder().id(user.getId()).name(user.getName()).email(user.getEmail()).build();
         user.setId(userRepository.save(newUser).getId());
-        userWishesService.saveUserWishes(user.getUserWishes(), user);
+        user.setUserWishes(userWishesService.saveUserWishes(user.getUserWishes(), user));
         return user;
     }
 
@@ -39,8 +39,8 @@ public class UserService {
     @Transactional
     public List<User> updateUsers(List<User> users) {
         for (User user : users) {
-            userRepository.findById(user.getId()).orElseThrow(() -> new UserNotFoundException(user.getId()));
-            userWishesService.saveUserWishes(user.getUserWishes(), user);
+            userRepository.findById(user.getId()).orElseThrow(() -> new UserNotFoundException("User id not exist: " + user.getId()));
+            user.setUserWishes(userWishesService.saveUserWishes(user.getUserWishes(), user));
             userRepository.save(user);
         }
         return users;

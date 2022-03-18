@@ -9,6 +9,7 @@ import com.example.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,7 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Arrays;
-import java.util.HashSet;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -47,6 +47,12 @@ class DemoApplicationTests {
 	}
 
 	@Test
+	void getUserByIdBadRequestTest () throws Exception {
+		mockMvc.perform(get("/api/v1/users/10"))
+				.andExpect(status().isBadRequest());
+	}
+
+	@Test
 	void getUsersTest() throws Exception {
 		MvcResult mvcResult = mockMvc.perform(get("/api/v1/users"))
 				.andExpect(status().isOk())
@@ -59,16 +65,10 @@ class DemoApplicationTests {
 
 	@Test
 	void postUserTest() throws Exception {
-		User user = new User().builder()
-				.name("Ivan")
-				.email("ivan@mail.ru")
-				.userWishes(new HashSet<>(Arrays.asList(
-						new UserWish().builder().userId("1").priceSettingsId("1").item2FindId("1").values("100;120").build(),
-						new UserWish().builder().userId("1").priceSettingsId("4").item2FindId("5").values("500").build()
-				)))
-				.build();
+		String request = AppUtility.getContentFromResourceFile("json/postUserTest_request.json");
+
 		MvcResult mvcResult = mockMvc.perform(post("/api/v1/users")
-					.content(objectMapper.writeValueAsString(user))
+					.content(request)
 					.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isCreated())
 				.andReturn();
@@ -80,15 +80,15 @@ class DemoApplicationTests {
 
 	@Test
 	void putUsersTest() throws Exception {
+		String request = AppUtility.getContentFromResourceFile("json/putUsersTest.json");
+
 		MvcResult mvcResult = mockMvc.perform(put("/api/v1/users")
-						.content(AppUtility.getContentFromResourceFile("json/putUsersTest.json"))
+						.content(request)
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andReturn();
 
-		String expectedResponse = AppUtility.getContentFromResourceFile("json/putUsersTest.json");
-
-		TestValidationUtility.validateResponse(mvcResult.getResponse(), expectedResponse);
+		TestValidationUtility.validateResponse(mvcResult.getResponse(), request);
 	}
 
 	@Test
@@ -98,10 +98,11 @@ class DemoApplicationTests {
 				.name("Ivan")
 				.email("ivan@mail.ru")
 				.build();
-		mockMvc.perform(put("/api/v1/users")
+		MvcResult mvcResult = mockMvc.perform(put("/api/v1/users")
 				.content(objectMapper.writeValueAsString(user))
 				.contentType(MediaType.APPLICATION_JSON))
-		.andExpect(status().isBadRequest());
+		.andExpect(status().isBadRequest())
+				.andReturn();
 
 		Assertions.assertThrows(UserNotFoundException.class, () -> userService.updateUsers(Arrays.asList(user)));
 	}
