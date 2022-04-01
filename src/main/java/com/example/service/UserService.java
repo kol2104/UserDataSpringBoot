@@ -39,7 +39,7 @@ public class UserService {
     @Transactional
     public List<User> updateUsers(List<User> users) {
         for (User user : users) {
-            userRepository.findById(user.getId()).orElseThrow(() -> new UserNotFoundException("User id not exist: " + user.getId()));
+            userRepository.findById(user.getId()).orElseThrow(() -> new UserNotFoundException(user.getId()));
             user.setUserWishes(userWishesService.saveUserWishes(user.getUserWishes(), user));
             userRepository.save(user);
         }
